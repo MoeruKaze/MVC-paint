@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 
-public class MyShape {
+public class MyShape implements Cloneable {
     private final Color color;
     private RectangularShape shape;
     private FillBehavior fb;
@@ -22,7 +22,6 @@ public class MyShape {
         fb.setShape(shape);
     }
 
-    // TODO: Попробовать вызовы через разные конструкторы, затем переделать создание через фабрику
     public MyShape() {
         color = Color.BLUE;
         shape = new Rectangle2D.Double();
@@ -31,13 +30,20 @@ public class MyShape {
         fb.setShape(shape);
     }
 
-    // TODO: Попробовать вызовы через разные конструкторы, затем переделать создание через фабрику
     public MyShape(Color color, RectangularShape shape, FillBehavior fb) {
         this.color = color;
         this.shape = shape;
         this.fb = fb;
         this.fb.setShape(shape);
         this.fb.setColor(color);
+    }
+
+    public MyShape(MyShape other) {
+        this.color = other.color;
+        this.shape = (RectangularShape) other.shape.clone();
+        this.fb = other.fb; // Поверхностное???
+        this.fb.setShape(this.shape);
+        this.fb.setColor(this.color);
     }
 
     public void setFb(FillBehavior fb) {
@@ -54,8 +60,16 @@ public class MyShape {
         shape.setFrameFromDiagonal(x, y);
     }
 
+    public void setFrame(Point2D point) {
+        shape.setFrame(point.getX(), point.getY(), 0, 0);
+    }
+
     void draw(Graphics2D g) {
         fb.draw(g);
+    }
 
+    @Override
+    public MyShape clone() {
+        return new MyShape(this);
     }
 }

@@ -12,12 +12,22 @@ public class Model extends Observable {
     }
 
     public void changeShape(Point2D x, Point2D y) {
-        currentShape.setFrame(x, y);
-        this.setChanged();
-        this.notifyObservers();
+        if (currentShape != null) {
+            currentShape.setFrame(x, y);
+            this.setChanged();
+            this.notifyObservers();
+        }
     }
 
     public void draw(Graphics2D g) {
-        currentShape.draw(g);
+        if (currentShape != null) {
+            currentShape.draw(g);
+        }
+    }
+
+    public void createCurrentShape(MyShape shape) {
+        this.currentShape = shape;
+        this.setChanged();
+        this.notifyObservers();
     }
 }

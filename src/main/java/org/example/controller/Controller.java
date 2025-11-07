@@ -17,6 +17,8 @@ public class Controller {
     private final MyPanel panel;
     private Point2D firstPoint;
     private Point2D secondPoint;
+
+    private ActionDraw actionDraw;
     private Controller() {
         model = new Model();
         MyShape shape = new MyShape(new Rectangle2D.Double());
@@ -48,5 +50,8 @@ public class Controller {
 
     public void draw(Graphics2D g2) {
         model.draw(g2);
+    }
+    public ActionDraw getActionDraw() {
+        return actionDraw;
     }
 }

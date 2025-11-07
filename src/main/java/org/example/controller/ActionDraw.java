@@ -10,7 +10,7 @@ public class ActionDraw {
     public MyShape sampleShape;
     private MyShape shape;
     private Point2D firstPoint;
-    private Point2D secondPoint; // Исправлена опечатка
+    private Point2D secondPoint;
     private Model model;
 
     public ActionDraw(MyShape shape, Model model) {

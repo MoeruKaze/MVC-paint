@@ -20,13 +20,25 @@ public class ActionDraw {
     }
 
     public void stretchShape(Point point) {
-        firstPoint = (Point2D) point.clone();
+        firstPoint = point;
         shape.setFrame(point);
     }
 
     public void createShape(Point point) {
-        secondPoint = (Point2D) point.clone();
+        secondPoint = point;
         shape = sampleShape.clone();
         model.createCurrentShape(shape);
+    }
+
+    public Point2D getFirstPoint() {
+        return firstPoint;
+    }
+
+    public Point2D getSecondPoint() {
+        return secondPoint;
+    }
+
+    public MyShape getSampleShape() {
+        return sampleShape;
     }
 }

@@ -2,6 +2,7 @@ package org.example.model;
 
 import org.example.model.fill.Fill;
 import org.example.model.fill.FillBehavior;
+import org.example.model.fill.NoFill;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -41,9 +42,8 @@ public class MyShape implements Cloneable {
     public MyShape(MyShape other) {
         this.color = other.color;
         this.shape = (RectangularShape) other.shape.clone();
-        this.fb = other.fb; // Поверхностное???
-        this.fb.setShape(this.shape);
-        this.fb.setColor(this.color);
+        this.fb = other.fb.clone();
+
     }
 
     public void setFb(FillBehavior fb) {
@@ -58,6 +58,7 @@ public class MyShape implements Cloneable {
 
     public void setFrame(Point2D x, Point2D y) {
         shape.setFrameFromDiagonal(x, y);
+        fb.setShape(shape);
     }
 
     public void setFrame(Point2D point) {

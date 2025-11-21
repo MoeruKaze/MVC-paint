@@ -34,6 +34,7 @@ public class Controller {
         frame.setPanel(panel);
         ActionDraw actionDraw = new ActionDraw(shape, model);
         menuState = new MenuState();
+        menuState.setActionDraw(actionDraw);
 
     }
 
@@ -59,5 +60,4 @@ public class Controller {
     public void draw(Graphics2D g2) {
         model.draw(g2);
     }
-
 }

@@ -9,6 +9,7 @@ import org.example.view.MyPanel;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RectangularShape;
 
 public class Controller {
     private static Controller instance;
@@ -16,7 +17,7 @@ public class Controller {
     private final MyFrame frame;
     private final MyPanel panel;
 
-    private ActionDraw actionDraw;
+    private MenuState menuState;
     private Controller() {
         model = new Model();
 
@@ -31,7 +32,9 @@ public class Controller {
 
         frame = new MyFrame();
         frame.setPanel(panel);
-        actionDraw = new ActionDraw(shape, model);
+        ActionDraw actionDraw = new ActionDraw(shape, model);
+        menuState = new MenuState();
+
     }
 
     public static Controller getInstance() {
@@ -42,10 +45,12 @@ public class Controller {
     }
 
     public void mousePressed(Point p){
+        ActionDraw actionDraw = menuState.getActionDraw();
         actionDraw.createShape(p);
 
     }
     public void mouseDragged(Point p){
+        ActionDraw actionDraw = menuState.getActionDraw();
         actionDraw.stretchShape(p);
         model.changeShape(actionDraw);
 
@@ -54,7 +59,5 @@ public class Controller {
     public void draw(Graphics2D g2) {
         model.draw(g2);
     }
-    public ActionDraw getActionDraw() {
-        return actionDraw;
-    }
+
 }

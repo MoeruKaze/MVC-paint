@@ -43,13 +43,16 @@ public class MyShape implements Cloneable {
         this.color = other.color;
         this.shape = (RectangularShape) other.shape.clone();
         this.fb = other.fb.clone();
-
     }
 
     public void setFb(FillBehavior fb) {
         this.fb = fb;
         fb.setShape(shape);
         fb.setColor(color);
+    }
+
+    public RectangularShape getShape() {
+        return shape;
     }
 
     public void setShape(RectangularShape shape) {

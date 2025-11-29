@@ -11,7 +11,6 @@ import java.util.Observable;
 
 public class Model extends Observable {
     private MyShape currentShape;
-
     private List<MyShape> shapeList = new ArrayList<>();
 
     public void setMyShape(MyShape myShape) {
@@ -31,10 +30,20 @@ public class Model extends Observable {
             s.draw(g);
         }
     }
+
     public void createCurrentShape(MyShape shape) {
         this.currentShape = shape;
         this.setChanged();
         this.notifyObservers();
         shapeList.add(shape);
+    }
+
+    public List<MyShape> getShapeList() {
+        return shapeList;
+    }
+
+    public void update() {
+        this.setChanged();
+        this.notifyObservers();
     }
 }

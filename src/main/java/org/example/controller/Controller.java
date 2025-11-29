@@ -46,15 +46,13 @@ public class Controller {
     }
 
     public void mousePressed(Point p){
-        ActionDraw actionDraw = menuState.getActionDraw();
-        actionDraw.createShape(p);
-
+        AppAction action = menuState.getActionDraw();
+        action.mousePressed(p);
     }
-    public void mouseDragged(Point p){
-        ActionDraw actionDraw = menuState.getActionDraw();
-        actionDraw.stretchShape(p);
-        model.changeShape(actionDraw);
 
+    public void mouseDragged(Point p){
+        AppAction action = menuState.getActionDraw();
+        action.mouseDragged(p);
     }
 
     public void draw(Graphics2D g2) {

@@ -12,8 +12,9 @@ public class MenuState {
     private boolean fill;
     private Color color;
     private RectangularShape selectedShape;
+    private AppAction actionDraw;
 
-    public MenuState(boolean fill, Color color, RectangularShape shapeType, ActionDraw actionDraw) {
+    public MenuState(boolean fill, Color color, RectangularShape shapeType, AppAction actionDraw) {
         this.fill = fill;
         this.color = color;
         this.selectedShape = shapeType;
@@ -27,21 +28,19 @@ public class MenuState {
         this.actionDraw = actionDraw;
     }
 
-    public ActionDraw getActionDraw() {
+    public AppAction getActionDraw() {
         return actionDraw;
     }
 
-    public void setActionDraw(ActionDraw actionDraw) {
+    public void setActionDraw(AppAction actionDraw) {
         this.actionDraw = actionDraw;
     }
 
-    private ActionDraw actionDraw;
-
     public RectangularShape createShape(){
-                return new Rectangle2D.Double();
-        }
+        return new Rectangle2D.Double();
+    }
 
-public FillBehavior createFillBehavior() {
+    public FillBehavior createFillBehavior() {
         if (fill) {
             Fill fill = new Fill();
             fill.setColor(color);
@@ -52,7 +51,7 @@ public FillBehavior createFillBehavior() {
             return noFill;
 
         }
-}
+    }
 
     public boolean isFill() {
         return fill;
@@ -77,6 +76,4 @@ public FillBehavior createFillBehavior() {
     public void setSelectedShape(Shape selectedShape) {
         this.selectedShape = new Rectangle2D.Double();
     }
-
 }
-

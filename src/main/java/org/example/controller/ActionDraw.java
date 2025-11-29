@@ -6,7 +6,7 @@ import org.example.model.MyShape;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
-public class ActionDraw {
+public class ActionDraw implements AppAction {
     public MyShape sampleShape;
     private MyShape shape;
     private Point2D firstPoint;
@@ -19,15 +19,21 @@ public class ActionDraw {
         this.sampleShape = shape;
     }
 
-    public void stretchShape(Point point) {
+    @Override
+    public void mousePressed(Point point) {
         firstPoint = point;
+        // Создаем новую фигуру только при нажатии
+        shape = sampleShape.clone();
         shape.setFrame(point);
+        model.createCurrentShape(shape);
     }
 
-    public void createShape(Point point) {
+    @Override
+    public void mouseDragged(Point point) {
         secondPoint = point;
-        shape = sampleShape.clone();
-        model.createCurrentShape(shape);
+        // Растягиваем существующую фигуру, не создавая новую
+        shape.setFrame(firstPoint, secondPoint);
+        model.changeShape(this);
     }
 
     public Point2D getFirstPoint() {
@@ -41,6 +47,4 @@ public class ActionDraw {
     public MyShape getSampleShape() {
         return sampleShape;
     }
-
-
 }

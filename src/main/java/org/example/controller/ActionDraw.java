@@ -22,7 +22,6 @@ public class ActionDraw implements AppAction {
     @Override
     public void mousePressed(Point point) {
         firstPoint = point;
-        // Создаем новую фигуру только при нажатии
         shape = sampleShape.clone();
         shape.setFrame(point);
         model.createCurrentShape(shape);
@@ -31,7 +30,6 @@ public class ActionDraw implements AppAction {
     @Override
     public void mouseDragged(Point point) {
         secondPoint = point;
-        // Растягиваем существующую фигуру, не создавая новую
         shape.setFrame(firstPoint, secondPoint);
         model.changeShape(this);
     }

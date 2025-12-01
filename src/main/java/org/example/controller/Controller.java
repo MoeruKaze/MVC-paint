@@ -9,7 +9,6 @@ import org.example.view.MyPanel;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.RectangularShape;
 
 public class Controller {
     private static Controller instance;
@@ -18,24 +17,34 @@ public class Controller {
     private final MyPanel panel;
 
     private MenuState menuState;
+
+    private MyShape sampleShape;
+
     private Controller() {
         model = new Model();
 
-        MyShape shape = new MyShape(new Rectangle2D.Double());
-        FillBehavior fb = new NoFill(); //на фабрику поменять
+        sampleShape = new MyShape(new Rectangle2D.Double());
+        FillBehavior fb = new NoFill();
         fb.setColor(Color.BLUE);
-        shape.setFb(new NoFill());
+        sampleShape.setFb(new NoFill());
 
         panel = new MyPanel(this);
-        // TODO: Поменять наблюдатель на более современную реализацию
         model.addObserver(panel);
 
         frame = new MyFrame();
         frame.setPanel(panel);
-        ActionDraw actionDraw = new ActionDraw(shape, model);
-        menuState = new MenuState();
-        menuState.setActionDraw(actionDraw);
 
+
+        var actionDraw = new ActionDraw(sampleShape, model);
+        var actionMove = new ActionMove(model);
+        menuState = new MenuState();
+        menuState.setAppAction(actionDraw);
+
+        MenuCreator menuCreator = new MenuCreator(sampleShape, model, menuState);
+        frame.setJMenuBar(menuCreator.createMenu());
+
+
+        frame.revalidate();
     }
 
     public static Controller getInstance() {
@@ -45,17 +54,18 @@ public class Controller {
         return instance;
     }
 
-    public void mousePressed(Point p){
-        AppAction action = menuState.getActionDraw();
+    public void mousePressed(Point p) {
+        AppAction action = menuState.getAppAction();
         action.mousePressed(p);
     }
 
-    public void mouseDragged(Point p){
-        AppAction action = menuState.getActionDraw();
+    public void mouseDragged(Point p) {
+        AppAction action = menuState.getAppAction();
         action.mouseDragged(p);
     }
 
     public void draw(Graphics2D g2) {
         model.draw(g2);
     }
+
 }

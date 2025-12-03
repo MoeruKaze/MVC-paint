@@ -2,13 +2,18 @@ package org.example.controller;
 
 import org.example.model.Model;
 import org.example.model.MyShape;
+import org.example.model.fill.Fill;
+import org.example.model.fill.FillBehavior;
+import org.example.model.fill.NoFill;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 
 public class MenuCreator {
     private final MenuState menuState;
-
     private final Model model;
     private final MyShape sampleShape;
 
@@ -22,6 +27,17 @@ public class MenuCreator {
         JMenuBar menu = new JMenuBar();
         JMenu actionMenu = createShapeMenu();
         menu.add(actionMenu);
+
+        // Добавляем новые меню
+        JMenu figureMenu = createFigureMenu();
+        menu.add(figureMenu);
+
+        JMenu colorMenu = createColorMenu();
+        menu.add(colorMenu);
+
+        JMenu fillMenu = createFillMenu();
+        menu.add(fillMenu);
+
         return menu;
     }
 
@@ -40,7 +56,121 @@ public class MenuCreator {
         group.add(move);
 
         return shapeMenu;
-
     }
 
+    // Меню выбора фигуры
+    private JMenu createFigureMenu() {
+        JMenu figureMenu = new JMenu("Фигура");
+        ButtonGroup figureGroup = new ButtonGroup();
+
+        JRadioButtonMenuItem rectangle = new JRadioButtonMenuItem("Прямоугольник");
+        rectangle.addActionListener(e -> {
+            sampleShape.setShape(new Rectangle2D.Double());
+            menuState.setSelectedShape(new Rectangle2D.Double());
+        });
+        figureMenu.add(rectangle);
+        figureGroup.add(rectangle);
+        rectangle.setSelected(true); // По умолчанию выбран прямоугольник
+
+        JRadioButtonMenuItem ellipse = new JRadioButtonMenuItem("Эллипс");
+        ellipse.addActionListener(e -> {
+            sampleShape.setShape(new Ellipse2D.Double());
+            menuState.setSelectedShape(new Ellipse2D.Double());
+        });
+        figureMenu.add(ellipse);
+        figureGroup.add(ellipse);
+
+        JRadioButtonMenuItem roundedRect = new JRadioButtonMenuItem("Закругленный прямоугольник");
+        roundedRect.addActionListener(e -> {
+            sampleShape.setShape(new RoundRectangle2D.Double(0, 0, 0, 0, 20, 20));
+            menuState.setSelectedShape(new RoundRectangle2D.Double(0, 0, 0, 0, 20, 20));
+        });
+        figureMenu.add(roundedRect);
+        figureGroup.add(roundedRect);
+
+        return figureMenu;
+    }
+
+    // Меню выбора цвета
+    private JMenu createColorMenu() {
+        JMenu colorMenu = new JMenu("Цвет");
+        ButtonGroup colorGroup = new ButtonGroup();
+
+        JRadioButtonMenuItem black = new JRadioButtonMenuItem("Черный");
+        black.addActionListener(e -> {
+            sampleShape.setColor(Color.BLACK);
+            menuState.setColor(Color.BLACK);
+            updateFillBehavior();
+        });
+        colorMenu.add(black);
+        colorGroup.add(black);
+        black.setSelected(true); // По умолчанию черный
+
+        JRadioButtonMenuItem blue = new JRadioButtonMenuItem("Синий");
+        blue.addActionListener(e -> {
+            sampleShape.setColor(Color.BLUE);
+            menuState.setColor(Color.BLUE);
+            updateFillBehavior();
+        });
+        colorMenu.add(blue);
+        colorGroup.add(blue);
+
+        JRadioButtonMenuItem red = new JRadioButtonMenuItem("Красный");
+        red.addActionListener(e -> {
+            sampleShape.setColor(Color.RED);
+            menuState.setColor(Color.RED);
+            updateFillBehavior();
+        });
+        colorMenu.add(red);
+        colorGroup.add(red);
+
+        JRadioButtonMenuItem green = new JRadioButtonMenuItem("Зеленый");
+        green.addActionListener(e -> {
+            sampleShape.setColor(Color.GREEN);
+            menuState.setColor(Color.GREEN);
+            updateFillBehavior();
+        });
+        colorMenu.add(green);
+        colorGroup.add(green);
+
+        return colorMenu;
+    }
+
+    // Меню выбора заливки
+    private JMenu createFillMenu() {
+        JMenu fillMenu = new JMenu("Заливка");
+        ButtonGroup fillGroup = new ButtonGroup();
+
+        JRadioButtonMenuItem fill = new JRadioButtonMenuItem("Закрашивать");
+        fill.addActionListener(e -> {
+            menuState.setFill(true);
+            updateFillBehavior();
+        });
+        fillMenu.add(fill);
+        fillGroup.add(fill);
+
+        JRadioButtonMenuItem noFill = new JRadioButtonMenuItem("Не закрашивать");
+        noFill.addActionListener(e -> {
+            menuState.setFill(false);
+            updateFillBehavior();
+        });
+        fillMenu.add(noFill);
+        fillGroup.add(noFill);
+        noFill.setSelected(true); // По умолчанию не закрашивать
+
+        return fillMenu;
+    }
+
+    // Обновить поведение заливки с текущими настройками
+    private void updateFillBehavior() {
+        FillBehavior fb;
+        if (menuState.isFill()) {
+            fb = new Fill();
+        } else {
+            fb = new NoFill();
+        }
+        fb.setColor(sampleShape.getColor());
+        fb.setShape(sampleShape.getShape());
+        sampleShape.setFb(fb);
+    }
 }

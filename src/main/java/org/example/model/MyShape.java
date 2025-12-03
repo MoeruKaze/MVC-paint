@@ -11,22 +11,22 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 
 public class MyShape implements Cloneable {
-    private final Color color;
+    private Color color; // Убираем final
     private RectangularShape shape;
     private FillBehavior fb;
 
     public MyShape(RectangularShape shape) {
         this.shape = shape;
-        color = Color.GRAY;
-        fb = new Fill();
+        color = Color.BLACK; // По умолчанию черный
+        fb = new NoFill(); // По умолчанию без заливки
         fb.setColor(color);
         fb.setShape(shape);
     }
 
     public MyShape() {
-        color = Color.BLUE;
+        color = Color.BLACK; // По умолчанию черный
         shape = new Rectangle2D.Double();
-        fb = new Fill();
+        fb = new NoFill(); // По умолчанию без заливки
         fb.setColor(color);
         fb.setShape(shape);
     }
@@ -51,21 +51,40 @@ public class MyShape implements Cloneable {
         fb.setColor(color);
     }
 
+    public void setColor(Color color) {
+        this.color = color;
+        if (fb != null) {
+            fb.setColor(color);
+        }
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
     public RectangularShape getShape() {
         return shape;
     }
 
     public void setShape(RectangularShape shape) {
         this.shape = shape;
+        if (fb != null) {
+            fb.setShape(shape);
+        }
     }
 
     public void setFrame(Point2D x, Point2D y) {
         shape.setFrameFromDiagonal(x, y);
-        fb.setShape(shape);
+        if (fb != null) {
+            fb.setShape(shape);
+        }
     }
 
     public void setFrame(Point2D point) {
         shape.setFrame(point.getX(), point.getY(), 0, 0);
+        if (fb != null) {
+            fb.setShape(shape);
+        }
     }
 
     void draw(Graphics2D g) {

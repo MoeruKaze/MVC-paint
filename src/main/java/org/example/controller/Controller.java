@@ -23,10 +23,9 @@ public class Controller {
     private Controller() {
         model = new Model();
 
+        // Инициализация фигуры по умолчанию
         sampleShape = new MyShape(new Rectangle2D.Double());
-        FillBehavior fb = new NoFill();
-        fb.setColor(Color.BLUE);
-        sampleShape.setFb(new NoFill());
+        // Уже установлен черный цвет по умолчанию в конструкторе MyShape
 
         panel = new MyPanel(this);
         model.addObserver(panel);
@@ -34,15 +33,18 @@ public class Controller {
         frame = new MyFrame();
         frame.setPanel(panel);
 
-
         var actionDraw = new ActionDraw(sampleShape, model);
         var actionMove = new ActionMove(model);
+
+        // Инициализация состояния меню
         menuState = new MenuState();
+        menuState.setFill(false); // По умолчанию не закрашивать
+        menuState.setColor(Color.BLACK); // По умолчанию черный цвет
+        menuState.setSelectedShape(new Rectangle2D.Double()); // По умолчанию прямоугольник
         menuState.setAppAction(actionDraw);
 
         MenuCreator menuCreator = new MenuCreator(sampleShape, model, menuState);
         frame.setJMenuBar(menuCreator.createMenu());
-
 
         frame.revalidate();
     }

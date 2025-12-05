@@ -42,7 +42,4 @@ public class ActionDraw implements AppAction {
         return secondPoint;
     }
 
-    public MyShape getSampleShape() {
-        return sampleShape;
-    }
 }

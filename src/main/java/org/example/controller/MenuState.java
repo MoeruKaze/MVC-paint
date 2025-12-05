@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.model.MyShape;
 import org.example.model.fill.Fill;
 import org.example.model.fill.FillBehavior;
 import org.example.model.fill.NoFill;
@@ -13,6 +14,7 @@ public class MenuState {
     private Color color;
     private RectangularShape selectedShape;
     private AppAction appAction;
+    private MyShape sampleShape;
 
     public MenuState() {
         this.fill = false;
@@ -36,8 +38,8 @@ public class MenuState {
         if (fill) {
             Fill fill = new Fill();
             fill.setColor(color);
-            return fill;}
-        else{
+            return fill;
+        } else {
             NoFill noFill = new NoFill();
             noFill.setColor(color);
             return noFill;
@@ -58,6 +60,9 @@ public class MenuState {
 
     public void setColor(Color color) {
         this.color = color;
+        if (sampleShape != null) {
+            sampleShape.setColor(color);
+        }
     }
 
     public Shape getSelectedShape() {
@@ -66,5 +71,13 @@ public class MenuState {
 
     public void setSelectedShape(Shape selectedShape) {
         this.selectedShape = new Rectangle2D.Double();
+    }
+
+    public MyShape getSampleShape() {
+        return sampleShape;
+    }
+
+    public void setSampleShape(MyShape sampleShape) {
+        this.sampleShape = sampleShape;
     }
 }

@@ -2,10 +2,9 @@ package org.example.controller;
 
 import org.example.model.Model;
 import org.example.model.MyShape;
-import org.example.model.fill.FillBehavior;
-import org.example.model.fill.NoFill;
 import org.example.view.MyFrame;
 import org.example.view.MyPanel;
+import org.example.view.menu.MenuCreator;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -17,36 +16,33 @@ public class Controller {
     private final MyPanel panel;
 
     private MenuState menuState;
-
     private MyShape sampleShape;
 
     private Controller() {
         model = new Model();
-
-
         sampleShape = new MyShape(new Rectangle2D.Double());
-
-
         panel = new MyPanel(this);
         model.addObserver(panel);
-
         frame = new MyFrame();
         frame.setPanel(panel);
-
-        var actionDraw = new ActionDraw(sampleShape, model);
-        var actionMove = new ActionMove(model);
 
 
         menuState = new MenuState();
         menuState.setFill(false);
         menuState.setColor(Color.BLACK);
         menuState.setSelectedShape(new Rectangle2D.Double());
-        menuState.setAppAction(actionDraw);
+        menuState.setSampleShape(sampleShape);
+        menuState.setAppAction(new ActionDraw(sampleShape, model));
 
-        MenuCreator menuCreator = new MenuCreator(sampleShape, model, menuState);
-        frame.setJMenuBar(menuCreator.createMenu());
+        MenuCreator menuCreator = MenuCreator.getInstance();
+        menuCreator.setState(menuState);
+        menuCreator.setModel(model);
+        menuCreator.setSampleShape(sampleShape);
 
+
+        frame.setJMenuBar(menuCreator.createMenuBar());
         frame.revalidate();
+        frame.add(menuCreator.createToolBar(), BorderLayout.WEST);
     }
 
     public static Controller getInstance() {
@@ -58,16 +54,27 @@ public class Controller {
 
     public void mousePressed(Point p) {
         AppAction action = menuState.getAppAction();
-        action.mousePressed(p);
+        if (action != null) {
+            action.mousePressed(p);
+        }
     }
 
     public void mouseDragged(Point p) {
         AppAction action = menuState.getAppAction();
-        action.mouseDragged(p);
+        if (action != null) {
+            action.mouseDragged(p);
+        }
     }
 
     public void draw(Graphics2D g2) {
         model.draw(g2);
     }
 
+    public MenuState getMenuState() {
+        return menuState;
+    }
+
+    public Model getModel() {
+        return model;
+    }
 }

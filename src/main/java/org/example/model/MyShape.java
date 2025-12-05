@@ -11,22 +11,22 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 
 public class MyShape implements Cloneable {
-    private Color color; // Убираем final
+    private Color color;
     private RectangularShape shape;
     private FillBehavior fb;
 
     public MyShape(RectangularShape shape) {
         this.shape = shape;
-        color = Color.BLACK; // По умолчанию черный
-        fb = new NoFill(); // По умолчанию без заливки
+        color = Color.BLACK;
+        fb = new NoFill();
         fb.setColor(color);
         fb.setShape(shape);
     }
 
     public MyShape() {
-        color = Color.BLACK; // По умолчанию черный
+        color = Color.BLACK;
         shape = new Rectangle2D.Double();
-        fb = new NoFill(); // По умолчанию без заливки
+        fb = new NoFill();
         fb.setColor(color);
         fb.setShape(shape);
     }

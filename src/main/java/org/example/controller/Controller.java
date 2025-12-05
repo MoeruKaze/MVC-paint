@@ -42,7 +42,7 @@ public class Controller {
 
         frame.setJMenuBar(menuCreator.createMenuBar());
         frame.revalidate();
-        frame.add(menuCreator.createToolBar(), BorderLayout.WEST);
+        frame.add(menuCreator.createToolBar(), BorderLayout.NORTH);
     }
 
     public static Controller getInstance() {

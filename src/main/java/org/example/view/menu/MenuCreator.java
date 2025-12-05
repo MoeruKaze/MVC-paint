@@ -207,8 +207,7 @@ public class MenuCreator {
         noFill.setSelected(true);
 
         return fillMenu;
-
-        /*menuItems.add(new JSeparator(JSeparator.VERTICAL));
+        /*        menuItems.add(new JSeparator(JSeparator.VERTICAL));
 
         AppCommand undoCommand = new SwitchUndo(undoMachine);
         URL undoUrl = getClass().getClassLoader().getResource("ico/undo_16x16.png");
@@ -226,6 +225,7 @@ public class MenuCreator {
 
         undoMachine.updateButtons();
 
-        return menuItems;}*/
+        return menuItems;}
+    */
     }
 }

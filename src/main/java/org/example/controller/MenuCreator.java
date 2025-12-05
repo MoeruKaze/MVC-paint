@@ -28,7 +28,6 @@ public class MenuCreator {
         JMenu actionMenu = createShapeMenu();
         menu.add(actionMenu);
 
-        // Добавляем новые меню
         JMenu figureMenu = createFigureMenu();
         menu.add(figureMenu);
 
@@ -58,7 +57,6 @@ public class MenuCreator {
         return shapeMenu;
     }
 
-    // Меню выбора фигуры
     private JMenu createFigureMenu() {
         JMenu figureMenu = new JMenu("Фигура");
         ButtonGroup figureGroup = new ButtonGroup();
@@ -70,7 +68,7 @@ public class MenuCreator {
         });
         figureMenu.add(rectangle);
         figureGroup.add(rectangle);
-        rectangle.setSelected(true); // По умолчанию выбран прямоугольник
+        rectangle.setSelected(true);
 
         JRadioButtonMenuItem ellipse = new JRadioButtonMenuItem("Эллипс");
         ellipse.addActionListener(e -> {
@@ -91,7 +89,6 @@ public class MenuCreator {
         return figureMenu;
     }
 
-    // Меню выбора цвета
     private JMenu createColorMenu() {
         JMenu colorMenu = new JMenu("Цвет");
         ButtonGroup colorGroup = new ButtonGroup();
@@ -104,7 +101,7 @@ public class MenuCreator {
         });
         colorMenu.add(black);
         colorGroup.add(black);
-        black.setSelected(true); // По умолчанию черный
+        black.setSelected(true);
 
         JRadioButtonMenuItem blue = new JRadioButtonMenuItem("Синий");
         blue.addActionListener(e -> {
@@ -136,7 +133,6 @@ public class MenuCreator {
         return colorMenu;
     }
 
-    // Меню выбора заливки
     private JMenu createFillMenu() {
         JMenu fillMenu = new JMenu("Заливка");
         ButtonGroup fillGroup = new ButtonGroup();
@@ -156,12 +152,10 @@ public class MenuCreator {
         });
         fillMenu.add(noFill);
         fillGroup.add(noFill);
-        noFill.setSelected(true); // По умолчанию не закрашивать
+        noFill.setSelected(true);
 
         return fillMenu;
     }
-
-    // Обновить поведение заливки с текущими настройками
     private void updateFillBehavior() {
         FillBehavior fb;
         if (menuState.isFill()) {

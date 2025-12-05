@@ -16,7 +16,7 @@ public class MenuState {
 
     public MenuState() {
         this.fill = false;
-        this.color = Color.BLACK; // Черный по умолчанию
+        this.color = Color.BLACK;
         this.selectedShape = new Rectangle2D.Double();
     }
 

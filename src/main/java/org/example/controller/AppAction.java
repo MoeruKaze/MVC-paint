@@ -1,11 +1,11 @@
 package org.example.controller;
 
-import java.awt.Point;
+import java.awt.*;
 
 public interface AppAction {
-    void mousePressed(Point point);
-    void mouseDragged(Point point);
-  /*  void execute();
+    public void mousePressed(Point point);
+    public void mouseDragged(Point point);
+/*    void execute();
     void unexecute();
     AppAction cloneAction();*/
 }

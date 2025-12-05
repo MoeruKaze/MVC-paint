@@ -81,6 +81,7 @@ public class MenuCreator {
         ImageIcon moveIco = moveUrl == null ? null : new ImageIcon(moveUrl);
         menuItems.add(new CommandActionListener("Двигать", moveIco, moveCommand));
 
+
         URL colorUrl = getClass().getClassLoader().getResource("ico/color_16x16.png");
         ImageIcon colorIco = colorUrl == null ? null : new ImageIcon(colorUrl);
         AppCommand colorCommand = new SwitchColor(state, false, null, null);
@@ -207,25 +208,5 @@ public class MenuCreator {
         noFill.setSelected(true);
 
         return fillMenu;
-        /*        menuItems.add(new JSeparator(JSeparator.VERTICAL));
-
-        AppCommand undoCommand = new SwitchUndo(undoMachine);
-        URL undoUrl = getClass().getClassLoader().getResource("ico/undo_16x16.png");
-        ImageIcon undoIco = undoUrl == null ? null : new ImageIcon(undoUrl);
-        CommandActionListener undoAction = new CommandActionListener("Отменить", undoIco, undoCommand);
-        menuItems.add(undoAction);
-        undoMachine.setUndoActionListener(undoAction);
-
-        AppCommand redoCommand = new SwitchRedo(undoMachine);
-        URL redoUrl = getClass().getClassLoader().getResource("ico/redo_16x16.png");
-        ImageIcon redoIco = redoUrl == null ? null : new ImageIcon(redoUrl);
-        CommandActionListener redoAction = new CommandActionListener("Вернуть", redoIco, redoCommand);
-        menuItems.add(redoAction);
-        undoMachine.setRedoActionListener(redoAction);
-
-        undoMachine.updateButtons();
-
-        return menuItems;}
-    */
     }
 }

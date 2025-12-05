@@ -82,7 +82,6 @@ public class MenuCreator {
         menuItems.add(new CommandActionListener("Двигать", moveIco, moveCommand));
 
 
-        menuItems.add(null);
 
 
         URL colorUrl = getClass().getClassLoader().getResource("ico/color_16x16.png");

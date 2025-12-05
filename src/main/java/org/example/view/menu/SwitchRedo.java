@@ -1,3 +1,4 @@
+/*
 package org.example.view.menu;
 
 import org.example.controller.state.UndoMachine;
@@ -14,4 +15,4 @@ public class SwitchRedo implements AppCommand {
         undoMachine.executeRedo();
         undoMachine.updateButtons();
     }
-}
+}*/

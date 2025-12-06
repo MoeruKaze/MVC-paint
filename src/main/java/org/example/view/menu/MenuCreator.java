@@ -47,8 +47,6 @@ public class MenuCreator {
         JMenu fillMenu = createFillMenu();
         menuBar.add(fillMenu);
 
-        JMenu editMenu = createEditMenu();
-        menuBar.add(editMenu);
 
         return menuBar;
     }
@@ -110,23 +108,6 @@ public class MenuCreator {
         return menuItems;
     }
 
-    private JMenu createEditMenu() {
-        JMenu editMenu = new JMenu("Правка");
-
-        CommandActionListener undoAction = new CommandActionListener(new SwitchUndo(undoMachine));
-        undoAction.putValue(Action.NAME, "Отменить");
-        undoAction.setEnabled(false);
-        undoMachine.setUndoActionListener(undoAction);
-        editMenu.add(undoAction);
-
-        CommandActionListener redoAction = new CommandActionListener(new SwitchRedo(undoMachine));
-        redoAction.putValue(Action.NAME, "Повторить");
-        redoAction.setEnabled(false);
-        undoMachine.setRedoActionListener(redoAction);
-        editMenu.add(redoAction);
-
-        return editMenu;
-    }
 
     private JMenu createShapeMenu() {
         JMenu shapeMenu = new JMenu("Действие");

@@ -1,9 +1,11 @@
 package org.example.controller;
 
+import org.example.controller.state.UndoMachine;
 import org.example.model.Model;
 import org.example.model.MyShape;
 import org.example.view.MyFrame;
 import org.example.view.MyPanel;
+import org.example.view.menu.CommandActionListener;
 import org.example.view.menu.MenuCreator;
 
 import java.awt.*;
@@ -14,6 +16,7 @@ public class Controller {
     private final Model model;
     private final MyFrame frame;
     private final MyPanel panel;
+    private final UndoMachine undoMachine;
 
     private MenuState menuState;
     private MyShape sampleShape;
@@ -26,6 +29,11 @@ public class Controller {
         frame = new MyFrame();
         frame.setPanel(panel);
 
+        // Создаем UndoMachine
+        // TODO: 06.12.2025 ПЕРЕНЕСТИ
+        CommandActionListener undoAction = new CommandActionListener("Undo", null, null);
+        CommandActionListener redoAction = new CommandActionListener("Redo", null, null);
+        undoMachine = new UndoMachine();
 
         menuState = new MenuState();
         menuState.setFill(false);

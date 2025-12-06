@@ -57,4 +57,25 @@ public class ActionMove implements AppAction {
     public MyShape getShape() {
         return shape;
     }
+
+    @Override
+    public void execute() {
+        model.createCurrentShape(shape);
+        model.update();
+    }
+
+    @Override
+    public void unexecute() {
+        shape = model.getLastShape();
+        model.removeLastShape();
+        model.update();
+    }
+
+    @Override
+    public AppAction cloneAction() {
+        ActionMove actionMove = new ActionMove(model);
+        actionMove.shape = shape.clone();
+//        actionMove.movebleShape = movebleShape;
+        return actionMove;
+    }
 }

@@ -7,63 +7,31 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 
 public class ActionDraw implements AppAction {
-    private MyShape sampleShape;
+    public MyShape sampleShape;
     private MyShape drawableShape;
     private Point2D firstPoint;
     private Point2D secondPoint;
     private Model model;
 
-    public ActionDraw(MyShape shape, Model model) {
-        this.sampleShape = shape;
+    public ActionDraw(MyShape drawableShape, Model model) {
+        this.drawableShape = drawableShape;
         this.model = model;
-    }
-
-    public ActionDraw(Model model) {
-        this.model = model;
+        this.sampleShape = drawableShape;
     }
 
     @Override
     public void mousePressed(Point point) {
-        secondPoint = point;
-        sampleShape = sampleShape.clone();
-        drawableShape = sampleShape;
-        model.createCurrentShape(sampleShape);
-        model.update();
+        firstPoint = point;
+        drawableShape = sampleShape.clone();
+        drawableShape.setFrame(point);
+        model.createCurrentShape(drawableShape);
     }
 
     @Override
     public void mouseDragged(Point point) {
-        firstPoint = point;
-        sampleShape.setFrame(firstPoint, secondPoint);
-        if (drawableShape != null) {
-            drawableShape.setFrame(firstPoint, secondPoint);
-        }
-        model.update();
-    }
-
-    @Override
-    public void execute() {
-        if (drawableShape != null) {
-            model.createCurrentShape(drawableShape);
-            model.update();
-        }
-    }
-
-    @Override
-    public void unexecute() {
-        drawableShape = model.getLastShape();
-        model.removeLastShape();
-        model.update();
-    }
-
-    @Override
-    public AppAction cloneAction() {
-        ActionDraw actionDraw = new ActionDraw(model);
-        if (sampleShape != null) {
-            actionDraw.sampleShape = sampleShape.clone();
-        }
-        actionDraw.drawableShape = drawableShape;
-        return actionDraw;
+        secondPoint = point;
+        drawableShape.setFrame(firstPoint, secondPoint);
+        model.changeShape(this);
     }
 
     public Point2D getFirstPoint() {
@@ -74,11 +42,22 @@ public class ActionDraw implements AppAction {
         return secondPoint;
     }
 
-    public MyShape getSampleShape() {
-        return sampleShape;
+    @Override
+    public void execute() {
+        model.createCurrentShape(drawableShape);
+        model.update();
     }
-
-    public MyShape getDrawableShape() {
-        return drawableShape;
+    @Override
+    public void unexecute() {
+        drawableShape = model.getLastShape();
+        model.removeLastShape();
+        model.update();
+    }
+    @Override
+    public AppAction cloneAction() {
+        ActionDraw actionDraw = new ActionDraw(drawableShape, model);
+        actionDraw.sampleShape = sampleShape.clone();
+        actionDraw.drawableShape = drawableShape;
+        return actionDraw;
     }
 }

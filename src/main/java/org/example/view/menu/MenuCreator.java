@@ -1,6 +1,8 @@
 package org.example.view.menu;
 
+import lombok.Setter;
 import org.example.controller.*;
+import org.example.controller.state.UndoMachine;
 import org.example.model.Model;
 import org.example.model.MyShape;
 
@@ -12,11 +14,14 @@ import java.awt.geom.RoundRectangle2D;
 import java.net.URL;
 import java.util.ArrayList;
 
+@Setter
 public class MenuCreator {
     private static MenuCreator instance;
     private MenuState state;
     private Model model;
     private MyShape sampleShape;
+
+    private UndoMachine undoMachine;
 
     private MenuCreator() {
 
@@ -27,18 +32,6 @@ public class MenuCreator {
             instance = new MenuCreator();
         }
         return instance;
-    }
-
-    public void setState(MenuState state) {
-        this.state = state;
-    }
-
-    public void setModel(Model model) {
-        this.model = model;
-    }
-
-    public void setSampleShape(MyShape sampleShape) {
-        this.sampleShape = sampleShape;
     }
 
     public JMenuBar createMenuBar() {

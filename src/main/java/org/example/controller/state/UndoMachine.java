@@ -1,19 +1,25 @@
-/*
 package org.example.controller.state;
 
-import org.example.controller.actions.AppAction;
+
+import org.example.controller.AppAction;
+import org.example.view.menu.CommandActionListener;
 
 import java.util.LinkedList;
 
 public class UndoMachine {
     private UndoRedoState undoRedoState;
-
+    private CommandActionListener undoActionListener;
+    private CommandActionListener redoActionListener;
     public UndoMachine() {
         LinkedList<AppAction> undoList = new LinkedList<>();
         LinkedList<AppAction> redoList = new LinkedList<>();
         undoRedoState = new StateDisableUndoDisableRedo(undoList, redoList);
     }
 
+    public void updateButtons() {
+        undoActionListener.setEnabled(isEnableUndo());
+        redoActionListener.setEnabled(isEnableRedo());
+    }
     public void executeRedo() {
         undoRedoState = undoRedoState.redo();
     }
@@ -23,12 +29,12 @@ public class UndoMachine {
     }
 
     public boolean isEnableUndo() {
-        return undoRedoState.getUndoActivityList().size() > 0;
+        return !undoRedoState.getUndoActivityList().isEmpty();
     }
 
 
     public boolean isEnableRedo() {
-        return undoRedoState.getRedoActivityList().size() > 0;
+        return !undoRedoState.getRedoActivityList().isEmpty();
     }
 
     public void add(AppAction action) {
@@ -38,4 +44,3 @@ public class UndoMachine {
         //undoRedoState = ;
     }
 }
-*/

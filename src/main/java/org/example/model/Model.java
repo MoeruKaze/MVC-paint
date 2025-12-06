@@ -5,6 +5,7 @@ import org.example.controller.ActionDraw;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 
@@ -46,25 +47,13 @@ public class Model extends Observable {
         this.notifyObservers();
     }
 
-    // Методы для Undo/Redo
     public MyShape getLastShape() {
-        if (!shapeList.isEmpty()) {
-            return shapeList.get(shapeList.size() - 1);
-        }
-        return null;
+        int lastIndex = shapeList.size() - 1;
+        return shapeList.get(lastIndex);
     }
 
     public void removeLastShape() {
-        if (!shapeList.isEmpty()) {
-            shapeList.remove(shapeList.size() - 1);
-            this.setChanged();
-            this.notifyObservers();
-        }
-    }
-
-    public void addShape(MyShape shape) {
-        shapeList.add(shape);
-        this.setChanged();
-        this.notifyObservers();
+        int lastIndex = shapeList.size() - 1;
+        shapeList.remove(lastIndex);
     }
 }

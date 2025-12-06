@@ -1,7 +1,7 @@
-/*
+
 package org.example.controller.state;
 
-import org.example.controller.actions.AppAction;
+import org.example.controller.AppAction;
 
 import java.util.LinkedList;
 
@@ -22,4 +22,4 @@ public class StateEnableUndoDisableRedo extends UndoRedoState {
         return this;
     }
 }
-*/
+

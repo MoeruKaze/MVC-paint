@@ -5,10 +5,10 @@ import org.example.model.Model;
 import org.example.model.MyShape;
 import org.example.view.MyFrame;
 import org.example.view.MyPanel;
-import org.example.view.menu.*;
+import org.example.view.menu.CommandActionListener;
+import org.example.view.menu.MenuCreator;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 public class Controller {
@@ -16,7 +16,7 @@ public class Controller {
     private final Model model;
     private final MyFrame frame;
     private final MyPanel panel;
-    private UndoMachine undoMachine;
+    private final UndoMachine undoMachine;
 
     private MenuState menuState;
     private MyShape sampleShape;
@@ -30,9 +30,10 @@ public class Controller {
         frame.setPanel(panel);
 
         // Создаем UndoMachine
+        // TODO: 06.12.2025 ПЕРЕНЕСТИ
         CommandActionListener undoAction = new CommandActionListener("Undo", null, null);
         CommandActionListener redoAction = new CommandActionListener("Redo", null, null);
-        undoMachine = new UndoMachine(undoAction, redoAction);
+        undoMachine = new UndoMachine();
 
         menuState = new MenuState();
         menuState.setFill(false);
@@ -45,7 +46,7 @@ public class Controller {
         menuCreator.setState(menuState);
         menuCreator.setModel(model);
         menuCreator.setSampleShape(sampleShape);
-        menuCreator.setUndoMachine(undoMachine); // Передаем UndoMachine
+
 
         frame.setJMenuBar(menuCreator.createMenuBar());
         frame.revalidate();
@@ -63,9 +64,6 @@ public class Controller {
         AppAction action = menuState.getAppAction();
         if (action != null) {
             action.mousePressed(p);
-            // Сохраняем действие в UndoMachine
-            undoMachine.add(action.cloneAction());
-            undoMachine.updateButtons();
         }
     }
 
@@ -86,9 +84,5 @@ public class Controller {
 
     public Model getModel() {
         return model;
-    }
-
-    public UndoMachine getUndoMachine() {
-        return undoMachine;
     }
 }

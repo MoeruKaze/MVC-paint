@@ -1,4 +1,3 @@
-
 package org.example.controller.state;
 
 import org.example.controller.AppAction;
@@ -13,12 +12,11 @@ public class StateEnableUndoEnableRedo extends UndoRedoState {
 
     @Override
     public UndoRedoState undo() {
-        //TODO: Определить
         LinkedList<AppAction> undoActivityList = getUndoActivityList();
         LinkedList<AppAction> redoActivityList = getRedoActivityList();
         AppAction action = undoActivityList.pollLast();
         if (action != null) {
-            redoActivityList.add(action);
+            redoActivityList.add(action.cloneAction());
             action.unexecute();
         }
         if (undoActivityList.size() == 0) {
@@ -28,8 +26,17 @@ public class StateEnableUndoEnableRedo extends UndoRedoState {
 
     @Override
     public UndoRedoState redo() {
-        //TODO: Определить
-        return this;
+        LinkedList<AppAction> undoActivityList = getUndoActivityList();
+        LinkedList<AppAction> redoActivityList = getRedoActivityList();
+        AppAction action = redoActivityList.pollLast();
+        if (action != null) {
+            undoActivityList.add(action.cloneAction());
+            action.execute();
+        }
+        if (redoActivityList.size() == 0) {
+            return new StateEnableUndoDisableRedo(getUndoActivityList(), getRedoActivityList());
+        } else {
+            return this;
+        }
     }
 }
-

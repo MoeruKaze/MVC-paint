@@ -5,7 +5,6 @@ import org.example.model.Model;
 import org.example.model.MyShape;
 import org.example.view.MyFrame;
 import org.example.view.MyPanel;
-import org.example.view.menu.CommandActionListener;
 import org.example.view.menu.MenuCreator;
 
 import java.awt.*;
@@ -29,12 +28,7 @@ public class Controller {
         frame = new MyFrame();
         frame.setPanel(panel);
 
-        // Создаем UndoMachine
-        // TODO: 06.12.2025 ПЕРЕНЕСТИ
-        CommandActionListener undoAction = new CommandActionListener("Undo", null, null);
-        CommandActionListener redoAction = new CommandActionListener("Redo", null, null);
         undoMachine = new UndoMachine();
-
         menuState = new MenuState();
         menuState.setFill(false);
         menuState.setColor(Color.BLACK);
@@ -46,7 +40,7 @@ public class Controller {
         menuCreator.setState(menuState);
         menuCreator.setModel(model);
         menuCreator.setSampleShape(sampleShape);
-
+        menuCreator.setUndoMachine(undoMachine);
 
         frame.setJMenuBar(menuCreator.createMenuBar());
         frame.revalidate();
@@ -84,5 +78,9 @@ public class Controller {
 
     public Model getModel() {
         return model;
+    }
+
+    public UndoMachine getUndoMachine() {
+        return undoMachine;
     }
 }

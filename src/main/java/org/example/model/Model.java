@@ -1,11 +1,12 @@
 package org.example.model;
 
 import org.example.controller.ActionDraw;
+import org.example.controller.AppAction;
+import org.example.controller.Controller;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 
@@ -36,6 +37,7 @@ public class Model extends Observable {
         this.setChanged();
         this.notifyObservers();
         shapeList.add(shape);
+        Controller.getInstance().getUndoMachine().add(new ActionDraw(shape, this));
     }
 
     public List<MyShape> getShapeList() {

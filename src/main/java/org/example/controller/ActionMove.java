@@ -11,8 +11,8 @@ public class ActionMove implements AppAction {
     private Point2D firstPoint;
     private Point2D secondPoint;
     private Model model;
-    private MyShape originalShape; // Для хранения исходного состояния
-    private MyShape movedShape; // Для хранения перемещенного состояния
+    private MyShape originalShape;
+    private MyShape movedShape;
 
     public ActionMove(Model model) {
         this.model = model;
@@ -27,7 +27,7 @@ public class ActionMove implements AppAction {
                 .orElse(null);
 
         if (shape != null) {
-            originalShape = shape.clone(); // Сохраняем исходное состояние
+            originalShape = shape.clone();
         }
     }
 
@@ -40,7 +40,6 @@ public class ActionMove implements AppAction {
         double deltaX = point.getX() - firstPoint.getX();
         double deltaY = point.getY() - firstPoint.getY();
 
-        // Сохраняем перемещенное состояние
         movedShape = shape.clone();
 
         Point2D newShapeFirstPoint = new Point2D.Double();
@@ -58,7 +57,6 @@ public class ActionMove implements AppAction {
     @Override
     public void execute() {
         if (movedShape != null && shape != null) {
-            // Восстанавливаем перемещенное состояние
             shape.setShape(movedShape.getShape());
             model.update();
         }
@@ -67,7 +65,6 @@ public class ActionMove implements AppAction {
     @Override
     public void unexecute() {
         if (originalShape != null && shape != null) {
-            // Восстанавливаем исходное состояние
             shape.setShape(originalShape.getShape());
             model.update();
         }

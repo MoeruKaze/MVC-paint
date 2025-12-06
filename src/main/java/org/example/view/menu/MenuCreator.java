@@ -20,11 +20,9 @@ public class MenuCreator {
     private MenuState state;
     private Model model;
     private MyShape sampleShape;
-
     private UndoMachine undoMachine;
 
     private MenuCreator() {
-
     }
 
     public static MenuCreator getInstance() {
@@ -49,6 +47,9 @@ public class MenuCreator {
         JMenu fillMenu = createFillMenu();
         menuBar.add(fillMenu);
 
+        JMenu editMenu = createEditMenu();
+        menuBar.add(editMenu);
+
         return menuBar;
     }
 
@@ -62,18 +63,15 @@ public class MenuCreator {
     private ArrayList<Action> createToolBarItems() {
         ArrayList<Action> menuItems = new ArrayList<>();
 
-
         AppCommand drawCommand = new SwitchAction(new ActionDraw(sampleShape, model), state);
         URL drawUrl = getClass().getClassLoader().getResource("ico/draw_16x16.png");
         ImageIcon drawIco = drawUrl == null ? null : new ImageIcon(drawUrl);
         menuItems.add(new CommandActionListener("Рисовать", drawIco, drawCommand));
 
-
         AppCommand moveCommand = new SwitchAction(new ActionMove(model), state);
         URL moveUrl = getClass().getClassLoader().getResource("ico/move_16x16.png");
         ImageIcon moveIco = moveUrl == null ? null : new ImageIcon(moveUrl);
         menuItems.add(new CommandActionListener("Двигать", moveIco, moveCommand));
-
 
         URL colorUrl = getClass().getClassLoader().getResource("ico/color_16x16.png");
         ImageIcon colorIco = colorUrl == null ? null : new ImageIcon(colorUrl);
@@ -90,13 +88,49 @@ public class MenuCreator {
         ImageIcon noFillIco = noFillUrl == null ? null : new ImageIcon(noFillUrl);
         menuItems.add(new CommandActionListener("Без заливки", noFillIco, noFillCommand));
 
+
+        CommandActionListener undoAction = new CommandActionListener(new SwitchUndo(undoMachine));
+        URL undoUrl = getClass().getClassLoader().getResource("ico/undo_16x16.png");
+        ImageIcon undoIco = undoUrl == null ? null : new ImageIcon(undoUrl);
+        undoAction.putValue(Action.NAME, "Отменить");
+        undoAction.putValue(Action.SMALL_ICON, undoIco);
+        undoAction.setEnabled(false);
+        undoMachine.setUndoActionListener(undoAction);
+        menuItems.add(undoAction);
+
+        CommandActionListener redoAction = new CommandActionListener(new SwitchRedo(undoMachine));
+        URL redoUrl = getClass().getClassLoader().getResource("ico/redo_16x16.png");
+        ImageIcon redoIco = redoUrl == null ? null : new ImageIcon(redoUrl);
+        redoAction.putValue(Action.NAME, "Повторить");
+        redoAction.putValue(Action.SMALL_ICON, redoIco);
+        redoAction.setEnabled(false);
+        undoMachine.setRedoActionListener(redoAction);
+        menuItems.add(redoAction);
+
         return menuItems;
+    }
+
+    private JMenu createEditMenu() {
+        JMenu editMenu = new JMenu("Правка");
+
+        CommandActionListener undoAction = new CommandActionListener(new SwitchUndo(undoMachine));
+        undoAction.putValue(Action.NAME, "Отменить");
+        undoAction.setEnabled(false);
+        undoMachine.setUndoActionListener(undoAction);
+        editMenu.add(undoAction);
+
+        CommandActionListener redoAction = new CommandActionListener(new SwitchRedo(undoMachine));
+        redoAction.putValue(Action.NAME, "Повторить");
+        redoAction.setEnabled(false);
+        undoMachine.setRedoActionListener(redoAction);
+        editMenu.add(redoAction);
+
+        return editMenu;
     }
 
     private JMenu createShapeMenu() {
         JMenu shapeMenu = new JMenu("Действие");
         ButtonGroup group = new ButtonGroup();
-
 
         AppCommand drawCommand = new SwitchAction(new ActionDraw(sampleShape, model), state);
         JRadioButtonMenuItem draw = new JRadioButtonMenuItem("Рисовать");
@@ -104,7 +138,6 @@ public class MenuCreator {
         shapeMenu.add(draw);
         group.add(draw);
         draw.setSelected(true);
-
 
         AppCommand moveCommand = new SwitchAction(new ActionMove(model), state);
         JRadioButtonMenuItem move = new JRadioButtonMenuItem("Двигать");
@@ -119,7 +152,6 @@ public class MenuCreator {
         JMenu figureMenu = new JMenu("Фигура");
         ButtonGroup figureGroup = new ButtonGroup();
 
-
         AppCommand rectangleCommand = new SwitchShape(state, sampleShape, new Rectangle2D.Double());
         JRadioButtonMenuItem rectangle = new JRadioButtonMenuItem("Прямоугольник");
         rectangle.addActionListener(new CommandActionListener("Прямоугольник", null, rectangleCommand));
@@ -127,13 +159,11 @@ public class MenuCreator {
         figureGroup.add(rectangle);
         rectangle.setSelected(true);
 
-
         AppCommand ellipseCommand = new SwitchShape(state, sampleShape, new Ellipse2D.Double());
         JRadioButtonMenuItem ellipse = new JRadioButtonMenuItem("Эллипс");
         ellipse.addActionListener(new CommandActionListener("Эллипс", null, ellipseCommand));
         figureMenu.add(ellipse);
         figureGroup.add(ellipse);
-
 
         AppCommand roundedRectCommand = new SwitchShape(state, sampleShape,
                 new RoundRectangle2D.Double(0, 0, 0, 0, 20, 20));
@@ -149,7 +179,6 @@ public class MenuCreator {
         JMenu colorMenu = new JMenu("Цвет");
         ButtonGroup colorGroup = new ButtonGroup();
 
-
         AppCommand blackCommand = new SwitchColor(state, true, Color.BLACK, null);
         JRadioButtonMenuItem black = new JRadioButtonMenuItem("Черный");
         black.addActionListener(new CommandActionListener("Черный", null, blackCommand));
@@ -157,20 +186,17 @@ public class MenuCreator {
         colorGroup.add(black);
         black.setSelected(true);
 
-
         AppCommand blueCommand = new SwitchColor(state, true, Color.BLUE, null);
         JRadioButtonMenuItem blue = new JRadioButtonMenuItem("Синий");
         blue.addActionListener(new CommandActionListener("Синий", null, blueCommand));
         colorMenu.add(blue);
         colorGroup.add(blue);
 
-
         AppCommand redCommand = new SwitchColor(state, true, Color.RED, null);
         JRadioButtonMenuItem red = new JRadioButtonMenuItem("Красный");
         red.addActionListener(new CommandActionListener("Красный", null, redCommand));
         colorMenu.add(red);
         colorGroup.add(red);
-
 
         AppCommand greenCommand = new SwitchColor(state, true, Color.GREEN, null);
         JRadioButtonMenuItem green = new JRadioButtonMenuItem("Зеленый");
@@ -185,13 +211,11 @@ public class MenuCreator {
         JMenu fillMenu = new JMenu("Заливка");
         ButtonGroup fillGroup = new ButtonGroup();
 
-
         AppCommand fillCommand = new SwitchFill(state, true);
         JRadioButtonMenuItem fill = new JRadioButtonMenuItem("Закрашивать");
         fill.addActionListener(new CommandActionListener("Закрашивать", null, fillCommand));
         fillMenu.add(fill);
         fillGroup.add(fill);
-
 
         AppCommand noFillCommand = new SwitchFill(state, false);
         JRadioButtonMenuItem noFill = new JRadioButtonMenuItem("Не закрашивать");

@@ -12,6 +12,7 @@ public class ActionDraw implements AppAction {
     private Point2D firstPoint;
     private Point2D secondPoint;
     private Model model;
+    private MyShape originalShape;
 
     public ActionDraw(MyShape drawableShape, Model model) {
         this.drawableShape = drawableShape;
@@ -24,6 +25,7 @@ public class ActionDraw implements AppAction {
         firstPoint = point;
         drawableShape = sampleShape.clone();
         drawableShape.setFrame(point);
+        originalShape = drawableShape.clone();
         model.createCurrentShape(drawableShape);
     }
 
@@ -44,20 +46,25 @@ public class ActionDraw implements AppAction {
 
     @Override
     public void execute() {
+        if (drawableShape == null && originalShape != null) {
+            drawableShape = originalShape.clone();
+        }
         model.createCurrentShape(drawableShape);
         model.update();
     }
+
     @Override
     public void unexecute() {
-        drawableShape = model.getLastShape();
         model.removeLastShape();
         model.update();
     }
+
     @Override
     public AppAction cloneAction() {
         ActionDraw actionDraw = new ActionDraw(drawableShape, model);
         actionDraw.sampleShape = sampleShape.clone();
-        actionDraw.drawableShape = drawableShape;
+        actionDraw.drawableShape = drawableShape != null ? drawableShape.clone() : null;
+        actionDraw.originalShape = originalShape != null ? originalShape.clone() : null;
         return actionDraw;
     }
 }

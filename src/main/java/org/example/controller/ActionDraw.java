@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import lombok.Getter;
 import org.example.model.Model;
 import org.example.model.MyShape;
 
@@ -9,7 +10,9 @@ import java.awt.geom.Point2D;
 public class ActionDraw implements AppAction {
     public MyShape sampleShape;
     private MyShape drawableShape;
+    @Getter
     private Point2D firstPoint;
+    @Getter
     private Point2D secondPoint;
     private Model model;
     private MyShape originalShape;
@@ -36,20 +39,18 @@ public class ActionDraw implements AppAction {
         model.changeShape(this);
     }
 
-    public Point2D getFirstPoint() {
-        return firstPoint;
-    }
-
-    public Point2D getSecondPoint() {
-        return secondPoint;
-    }
-
     @Override
     public void execute() {
         if (drawableShape == null && originalShape != null) {
             drawableShape = originalShape.clone();
         }
+        if (drawableShape == null) {
+            return;
+        }
+//        drawableShape.setFrame(firstPoint, secondPoint);
+        model.changeShape(this);
         model.createCurrentShape(drawableShape);
+
         model.update();
     }
 
@@ -65,6 +66,8 @@ public class ActionDraw implements AppAction {
         actionDraw.sampleShape = sampleShape.clone();
         actionDraw.drawableShape = drawableShape != null ? drawableShape.clone() : null;
         actionDraw.originalShape = originalShape != null ? originalShape.clone() : null;
+//        actionDraw.firstPoint = firstPoint;
+//        actionDraw.secondPoint = secondPoint;
         return actionDraw;
     }
 }

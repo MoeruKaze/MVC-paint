@@ -58,6 +58,8 @@ public class Controller {
         AppAction action = menuState.getAppAction();
         if (action != null) {
             action.mousePressed(p);
+            undoMachine.add(action.cloneAction());
+            undoMachine.updateButtons();
         }
     }
 

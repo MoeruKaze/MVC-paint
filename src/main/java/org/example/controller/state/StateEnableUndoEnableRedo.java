@@ -30,7 +30,7 @@ public class StateEnableUndoEnableRedo extends UndoRedoState {
         LinkedList<AppAction> redoActivityList = getRedoActivityList();
         AppAction action = redoActivityList.pollLast();
         if (action != null) {
-            undoActivityList.add(action.cloneAction());
+            undoActivityList.add(action);
             action.execute();
         }
         if (redoActivityList.size() == 0) {

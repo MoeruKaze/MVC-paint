@@ -57,8 +57,8 @@ public class UndoMachine {
         undoRedoState.clearHistory();
         undoRedoState.addAction(action.cloneAction());
 
-        if (undoRedoState.getUndoActivityList().size() > 0 &&
-                undoRedoState.getRedoActivityList().size() == 0) {
+        if (!undoRedoState.getUndoActivityList().isEmpty() &&
+                undoRedoState.getRedoActivityList().isEmpty()) {
             undoRedoState = new StateEnableUndoDisableRedo(
                     undoRedoState.getUndoActivityList(),
                     undoRedoState.getRedoActivityList()

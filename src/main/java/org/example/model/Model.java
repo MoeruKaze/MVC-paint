@@ -21,8 +21,7 @@ public class Model extends Observable {
     public void changeShape(ActionDraw actionDraw) {
         if (currentShape != null) {
             currentShape.setFrame(actionDraw.getFirstPoint(), actionDraw.getSecondPoint());
-            this.setChanged();
-            this.notifyObservers();
+            update();
         }
     }
 
@@ -34,10 +33,8 @@ public class Model extends Observable {
 
     public void createCurrentShape(MyShape shape) {
         this.currentShape = shape;
-        this.setChanged();
-        this.notifyObservers();
         shapeList.add(shape);
-        Controller.getInstance().getUndoMachine().add(new ActionDraw(shape, this));
+        update();
     }
 
     public List<MyShape> getShapeList() {

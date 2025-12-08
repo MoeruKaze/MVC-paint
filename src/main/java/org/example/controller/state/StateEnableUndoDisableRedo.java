@@ -20,9 +20,9 @@ public class StateEnableUndoDisableRedo extends UndoRedoState {
             action.unexecute();
         }
         if (undoActivityList.size() == 0) {
-            return new StateDisableUndoDisableRedo(getUndoActivityList(), getRedoActivityList());
+            return new StateDisableUndoEnableRedo(getUndoActivityList(), getRedoActivityList());
         } else {
-            return new StateEnableUndoDisableRedo(getUndoActivityList(), getRedoActivityList());
+            return new StateEnableUndoEnableRedo(getUndoActivityList(), getRedoActivityList());
         }
     }
 
